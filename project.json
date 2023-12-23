@@ -1,0 +1,23 @@
+{
+  "streamStats": {
+    "title": "StreamStats",
+    "copyright": "Copyright © 2016 StreamStats",
+    "links": [
+      {
+        "text": "PolyExtended",
+        "url": "https://rebrand.ly/PolyExtended",
+        "imageSrc": "https://bit.ly/PolyLogos"
+      },
+      {
+        "text": "GitHub Stats",
+        "url": "https://rebrand.ly/GitStats",
+        "imageSrc": "https://bit.ly/StreamStatsLogo"
+      },
+      {
+        "text": "Player.me Stats",
+        "url": "https://rebrand.ly/KickStats",
+        "imageSrc": "https://bit.ly/StreamStatsLogo"
+      }
+    ]
+  }
+}
