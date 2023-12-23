@@ -2,7 +2,7 @@
 
 document.addEventListener("DOMContentLoaded", function () {
   // Fetch the project.json file
-  fetch('streamstats.github.io/project.json')
+  fetch('project.json')
     .then(response => response.json())
     .then(data => {
       // Update the HTML dynamically with the fetched data
