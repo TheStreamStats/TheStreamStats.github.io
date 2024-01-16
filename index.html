@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <title>StreamStats</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -20,6 +21,7 @@
     }
   </style>
 </head>
+
 <body>
 
   <header class="z-depth-1">
@@ -48,7 +50,7 @@
   </main>
 
   <footer class="container section grey-text center-align">
-    &copy; 2016 Stra
+    &copy; <span id="github-year"></span> StreamStats
   </footer>
 
   <script>
@@ -70,8 +72,8 @@
       // Check if the color is too bright (light text on light background) or too dark (dark text on dark background)
       const rgb = parseInt(hexColor.substring(1), 16);
       const r = (rgb >> 16) & 0xff;
-      const g = (rgb >>  8) & 0xff;
-      const b = (rgb >>  0) & 0xff;
+      const g = (rgb >> 8) & 0xff;
+      const b = (rgb >> 0) & 0xff;
 
       const brightness = (r * 299 + g * 587 + b * 114) / 1000;
       return brightness > 200 || brightness < 50; // Modify these thresholds as needed
@@ -126,5 +128,17 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+  <script>
+    // Fetch the GitHub repository creation date
+    fetch('https://api.github.com/users/StreamStats')
+      .then(response => response.json())
+      .then(repoInfo => {
+        const createdYear = new Date(repoInfo.created_at).getFullYear();
+        document.getElementById('github-year').textContent = createdYear;
+      })
+      .catch(error => console.error('Error fetching GitHub repository info:', error));
+  </script>
 </body>
+
 </html>
