@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>StreamStats</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    a {
+      color: #16aaf2;
+    }
+
+    .backer {
+      background: #16aaf2;
+    }
+
+    .backer-dark {
+      background: #0c99dd;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="z-depth-1">
+    <nav class="z-depth-0 backer-dark">
+      <div class="nav-wrapper container">
+        <ul class="left">
+          <li><a href="streamstats.github.io">Home</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <header>
+    <div class="backer white-text valign-wrapper" style="height: 480px;">
+      <div class="container center-align valign">
+        <img src="https://bit.ly/StreamStatsLogo" style="height: 140px;">
+        <h1>StreamStats</h1>
+        <h4>We Track "Almost" Every Site</h4>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="padding: 2rem 0">
+    <!-- Your main content here -->
+    <div id="repo-cards" class="row"></div>
+  </main>
+
+  <footer class="container section grey-text center-align">
+    &copy; 2016 Stra
+  </footer>
+
+  <script>
+    // Function to generate a random color excluding unreadable colors and white
+    function getRandomColor() {
+      const letters = '0123456789ABCDEF';
+      let color = '#';
+      do {
+        color = '#';
+        for (let i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+      } while (isUnreadableColor(color) || color === '#FFFFFF'); // Exclude unreadable and white colors
+      return color;
+    }
+
+    // Function to check if a color is unreadable
+    function isUnreadableColor(hexColor) {
+      // Check if the color is too bright (light text on light background) or too dark (dark text on dark background)
+      const rgb = parseInt(hexColor.substring(1), 16);
+      const r = (rgb >> 16) & 0xff;
+      const g = (rgb >>  8) & 0xff;
+      const b = (rgb >>  0) & 0xff;
+
+      const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+      return brightness > 200 || brightness < 50; // Modify these thresholds as needed
+    }
+
+    // Fetch repositories from StreamStats GitHub organization
+    const org = 'streamstats';
+    fetch(`https://api.github.com/orgs/${org}/repos`)
+      .then(response => response.json())
+      .then(repos => {
+        // Select the container for repository cards
+        const repoCards = document.getElementById('repo-cards');
+
+        // Filter out repositories with specific names
+        const excludedNames = ['.github', 'streamstats.github.io', 'Support', 'BeamStatsDev', 'MixerStats', 'PlayerStats', 'Branding', 'NumberTrivia', 'Twitch', 'BeamServerStats', 'StreamStatsApp', 'DataStorage', 'HitboxStats', 'StreamStatsAppDev', 'skin', 'TwitchStatsDev'];
+        const filteredRepos = repos.filter(repo => !excludedNames.includes(repo.name));
+
+        // Iterate through the repositories and create cards
+        filteredRepos.forEach(repo => {
+          // Create card element
+          const card = document.createElement('div');
+          card.classList.add('col', 's12', 'm6');
+
+          // Generate a random color for the card content
+          const randomColor = getRandomColor();
+
+          card.innerHTML = `
+            <div class="card blue-grey darken-1">
+              <div class="card-content white-text" style="background-color: ${randomColor};">
+                <span class="card-title">${repo.name}</span>
+                <p>${repo.description || `Project For @StreamStats`}</p>
+              </div>
+              <div class="card-action">
+                <a href="${repo.homepage || repo.html_url}" class="card-link">Link</a>
+              </div>
+            </div>
+          `;
+
+          // Append the card to the container
+          repoCards.appendChild(card);
+        });
+      })
+      .catch(error => console.error('Error fetching repositories:', error));
+  </script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+</html>
