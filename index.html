@@ -99,6 +99,13 @@
           const randomColor = getRandomColor();
 
           card.innerHTML = `
+          <style>    .backer {
+      background: ${randomColor};
+    }
+
+    .backer-dark {
+      background: ${randomColor};
+    }</style>
             <div class="card blue-grey darken-1">
               <div class="card-content white-text" style="background-color: ${randomColor};">
                 <span class="card-title">${repo.name}</span>
