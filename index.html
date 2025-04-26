@@ -2,143 +2,465 @@
 <html lang="en">
 
 <head>
-  <title>StreamStats</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <title>TheStreamStats</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.2.3/darkly/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Moment.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
   <style>
-    a {
-      color: #16aaf2;
+    :root {
+      --primary-color: #1e88e5;
+      --secondary-color: #7e57c2;
+      --dark-bg: #121212;
+      --card-bg: #1e1e1e;
     }
-
-    .backer {
-      background: #16aaf2;
+    
+    body {
+      background-color: var(--dark-bg);
+      color: #e0e0e0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Roboto, sans-serif;
     }
-
-    .backer-dark {
-      background: #0c99dd;
+    
+    .navbar {
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color)) !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 15px 0;
+    }
+    
+    .navbar-brand {
+      font-weight: bold;
+      letter-spacing: 1px;
+      font-size: 1.5rem;
+    }
+    
+    .container-custom {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+    
+    .header-section {
+      text-align: center;
+      padding: 40px 0;
+      background: linear-gradient(135deg, rgba(30, 136, 229, 0.2), rgba(126, 87, 194, 0.2));
+      border-radius: 15px;
+      margin-bottom: 30px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+    
+    .page-title {
+      font-weight: 800;
+      font-size: 3rem;
+      margin-bottom: 10px;
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .page-subtitle {
+      color: #b0bec5;
+      font-size: 1.2rem;
+    }
+    
+    .repo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 25px;
+      margin-top: 20px;
+    }
+    
+    .repo-card {
+      background-color: var(--card-bg);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .repo-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    }
+    
+    .card-header {
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      font-weight: 700;
+      padding: 15px;
+      font-size: 1.5rem;
+    }
+    
+    .card-body {
+      padding: 20px;
+    }
+    
+    .card-banner {
+      height: 150px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      font-weight: bold;
+      color: white;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    }
+    
+    .stats-list {
+      background-color: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      margin: 15px 0;
+    }
+    
+    .stats-item {
+      background-color: transparent !important;
+      border-color: rgba(255, 255, 255, 0.1) !important;
+      padding: 12px 20px;
+    }
+    
+    .stats-badge {
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      font-weight: bold;
+      padding: 5px 10px;
+    }
+    
+    .card-description {
+      background-color: rgba(0, 0, 0, 0.2);
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      font-style: italic;
+      line-height: 1.6;
+    }
+    
+    .card-link {
+      display: inline-block;
+      padding: 10px 25px;
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      margin-right: 10px;
+    }
+    
+    .card-link:hover {
+      transform: scale(1.05);
+      box-shadow: 0 5px 15px rgba(30, 136, 229, 0.4);
+      color: white;
+    }
+    
+    .card-footer {
+      background-color: rgba(0, 0, 0, 0.3);
+      color: #90a4ae;
+      padding: 12px 20px;
+      font-size: 0.9rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .footer {
+      text-align: center;
+      margin-top: 50px;
+      padding: 30px 0;
+      color: #78909c;
+      font-size: 0.9rem;
+    }
+    
+    .loading-spinner {
+      text-align: center;
+      padding: 50px 0;
+    }
+    
+    .search-container {
+      margin-bottom: 30px;
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.2);
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .search-input {
+      background-color: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+    }
+    
+    .search-input:focus {
+      background-color: rgba(0, 0, 0, 0.4);
+      color: white;
+      box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.3);
+      border-color: var(--primary-color);
+    }
+    
+    .project-count {
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      border-radius: 50px;
+      padding: 5px 15px;
+      font-weight: bold;
+      margin-left: 10px;
+      font-size: 0.9rem;
+    }
+    
+    @media (max-width: 768px) {
+      .repo-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .page-title {
+        font-size: 2.2rem;
+      }
     }
   </style>
 </head>
 
 <body>
-
-  <header class="z-depth-1">
-    <nav class="z-depth-0 backer-dark">
-      <div class="nav-wrapper container">
-        <ul class="left">
-          <li><a href="streamstats.github.io">Home</a></li>
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <i class="fa-solid fa-chart-simple"></i> TheStreamStats
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+                  <li class="nav-item">
+            <a class="nav-link" href="https://thestreamstats.github.io">
+              <i class="fa-solid fa-house me-2"></i> Home
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://thestreamstats.github.io/GitStats/">
+              <i class="fab fa-github me-2"></i> GitStats
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://thestreamstats.github.io/KickStats/">
+              <i class="fas fa-bolt logo-icon"></i> KickStats 
+            </a>
+          </li>
         </ul>
       </div>
-    </nav>
-  </header>
+    </div>
+  </nav>
 
-  <header>
-    <div class="backer white-text valign-wrapper" style="height: 480px;">
-      <div class="container center-align valign">
-        <img src="https://bit.ly/StreamStatsLogo" style="height: 140px;">
-        <h1>StreamStats</h1>
-        <h4>We Track "Almost" Every Site</h4>
+  <div class="container container-custom mt-4">
+    <div class="header-section">
+      <h1 class="page-title"><i class="fa-solid fa-chart-simple"></i> TheStreamStats</h1>
+      <p class="page-subtitle">Explore our collection</p>
+    </div>
+
+    <!-- Search functionality -->
+    <div class="search-container">
+      <div class="row align-items-center">
+        <div class="col-md-6">
+          <h4><i class="fas fa-search me-2"></i>Search Projects <span id="project-count" class="project-count">0</span></h4>
+        </div>
+        <div class="col-md-6">
+          <input type="text" id="searchInput" class="form-control search-input" placeholder="Type to search projects...">
+        </div>
       </div>
     </div>
-  </header>
 
-  <main class="container" style="padding: 2rem 0">
-    <!-- Your main content here -->
-    <div id="repo-cards" class="row"></div>
-  </main>
+    <div class="loading-spinner" id="loading">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-3">Loading projects...</p>
+    </div>
 
-  <footer class="container section grey-text center-align">
-    &copy; <span id="github-year"></span> StreamStats
-  </footer>
+    <!-- Placeholder for the list of repositories -->
+    <div id="repo-grid" class="repo-grid">
+      <!-- Repository cards will be dynamically added here using JavaScript -->
+    </div>
 
+    <div class="footer">
+      <p>© 2025 Bacon_Space. All Projects are hosted on GitHub.</p>
+    </div>
+  </div>
+
+  <!-- Bootstrap JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.bundle.min.js"></script>
+  <!-- RandomColor -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.6.1/randomColor.min.js"></script>
+  
+  <!-- JavaScript to fetch and display GitHub repositories -->
   <script>
-    // Function to generate a random color excluding unreadable colors and white
-    function getRandomColor() {
-      const letters = '0123456789ABCDEF';
-      let color = '#';
-      do {
-        color = '#';
-        for (let i = 0; i < 6; i++) {
-          color += letters[Math.floor(Math.random() * 16)];
-        }
-      } while (isUnreadableColor(color) || color === '#FFFFFF'); // Exclude unreadable and white colors
-      return color;
-    }
-
-    // Function to check if a color is unreadable
-    function isUnreadableColor(hexColor) {
-      // Check if the color is too bright (light text on light background) or too dark (dark text on dark background)
-      const rgb = parseInt(hexColor.substring(1), 16);
-      const r = (rgb >> 16) & 0xff;
-      const g = (rgb >> 8) & 0xff;
-      const b = (rgb >> 0) & 0xff;
-
-      const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-      return brightness > 200 || brightness < 50; // Modify these thresholds as needed
-    }
-
-    // Fetch repositories from StreamStats GitHub organization
-    const org = 'streamstats';
-    fetch(`https://api.github.com/orgs/${org}/repos`)
+    // Show loading spinner
+    const loadingElement = document.getElementById('loading');
+    const projectCountElement = document.getElementById('project-count');
+    const searchInput = document.getElementById('searchInput');
+    let allRepos = []; // Store all repositories for filtering
+    
+    // Fetch all repositories from GitHub API - no topic filtering
+    const bsrp = 'TheStreamStats';
+    
+    fetch('https://api.github.com/users/TheStreamStats/repos?per_page=100')
       .then(response => response.json())
       .then(repos => {
-        // Select the container for repository cards
-        const repoCards = document.getElementById('repo-cards');
-
-        // Filter out repositories with specific names
-        const excludedNames = ['.github', 'streamstats.github.io', 'Support', 'BeamStatsDev', 'MixerStats', 'PlayerStats', 'Branding', 'NumberTrivia', 'Twitch', 'BeamServerStats', 'StreamStatsApp', 'DataStorage', 'HitboxStats', 'StreamStatsAppDev', 'skin', 'TwitchStatsDev'];
-        const filteredRepos = repos.filter(repo => !excludedNames.includes(repo.name));
-
-        // Iterate through the repositories and create cards
-        filteredRepos.forEach(repo => {
-          // Create card element
-          const card = document.createElement('div');
-          card.classList.add('col', 's12', 'm6');
-
-          // Generate a random color for the card content
-          const randomColor = getRandomColor();
-
-          card.innerHTML = `
-          <style>    .backer {
-      background: ${randomColor};
+        // Store all repos for filtering
+        allRepos = repos;
+        
+        // Hide loading spinner
+        loadingElement.style.display = 'none';
+        
+        // Update project count
+        projectCountElement.textContent = repos.length;
+        
+        // Display all repositories initially
+        displayRepositories(repos);
+        
+        // Add search functionality
+        searchInput.addEventListener('input', filterRepositories);
+      })
+      .catch(error => {
+        // Hide loading spinner and show error message
+        loadingElement.style.display = 'none';
+        const repoGrid = document.getElementById('repo-grid');
+        repoGrid.innerHTML = `
+          <div class="text-center p-5">
+            <i class="fas fa-exclamation-circle fa-3x mb-3 text-danger"></i>
+            <h3>Error Loading Projects</h3>
+            <p>There was a problem fetching the Projects. Please try again later.</p>
+          </div>
+        `;
+        console.error('Error fetching Projects:', error);
+      });
+      
+    // Function to filter repositories based on search input
+    function filterRepositories() {
+      const searchTerm = searchInput.value.toLowerCase();
+      
+      const filteredRepos = allRepos.filter(repo => 
+        repo.name.toLowerCase().includes(searchTerm) || 
+        (repo.description && repo.description.toLowerCase().includes(searchTerm))
+      );
+      
+      // Update project count
+      projectCountElement.textContent = filteredRepos.length;
+      
+      // Display filtered repositories
+      displayRepositories(filteredRepos);
     }
-
-    .backer-dark {
-      background: ${randomColor};
-    }</style>
-            <div class="card blue-grey darken-1">
-              <div class="card-content white-text" style="background-color: ${randomColor};">
-                <span class="card-title">${repo.name}</span>
-                <p>${repo.description || `Project For @StreamStats`}</p>
-              </div>
-              <div class="card-action">
-                <a href="${repo.homepage || repo.html_url}" class="card-link">Link</a>
-              </div>
-            </div>
-          `;
-
-          // Append the card to the container
-          repoCards.appendChild(card);
+    
+    // Function to display repositories
+    function displayRepositories(repositories) {
+      // Select the container for repository cards
+      const repoGrid = document.getElementById('repo-grid');
+      
+      // Clear existing content
+      repoGrid.innerHTML = '';
+      
+      // If no repos found, display a message
+      if (repositories.length === 0) {
+        repoGrid.innerHTML = `
+          <div class="text-center p-5">
+            <i class="fas fa-exclamation-triangle fa-3x mb-3 text-warning"></i>
+            <h3>No Projects Found</h3>
+            <p>Try adjusting your search criteria.</p>
+          </div>
+        `;
+        return;
+      }
+     
+      // Sort repositories by update date (newest first)
+      repositories.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+      
+      // Iterate through the repositories and create cards
+      repositories.forEach(repo => {
+        // Generate a color scheme for this card
+        const baseColor = randomColor({
+          luminosity: 'bright',
+          hue: 'random'
         });
-      })
-      .catch(error => console.error('Error fetching repositories:', error));
-  </script>
+        
+        // Create card element
+        const card = document.createElement('div');
+        card.classList.add('repo-card');
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        // Format timestamps using Moment.js
+        const createdTimestamp = moment(repo.created_at).fromNow();
+        const updatedTimestamp = moment(repo.updated_at).fromNow();
+        
+        // Determine project type based on repository name or description
+        let projectType = "Streamstats";
+        if (repo.name.toLowerCase().includes("lookup")) {
+          projectType = "Lookup";
+        } else if (repo.name.toLowerCase().includes("stream")) {
+          projectType = "Stream";
+        } else if (repo.name.toLowerCase().includes("tool")) {
+          projectType = "Development Tool";
+        }
+        else if (repo.name.toLowerCase().includes("stats")) {
+          projectType = "Stats";
+        }
+        
+        // Include card template
+        card.innerHTML = `
+          <h3 class="card-header">
+            <i class="fas fa-code-branch me-2"></i>${repo.name}
+          </h3>
+          <div class="card-body">
+            <h5 class="card-title">${projectType} for ${bsrp}</h5>
+            
+            <div class="card-banner" style="background: linear-gradient(45deg, ${baseColor}, ${randomColor({hue: baseColor})})">
+              <span>${repo.name}</span>
+            </div>
+            
+            <ul class="list-group stats-list">
+              <li class="list-group-item stats-item d-flex justify-content-between align-items-center">
+                <span><i class="fas fa-star me-2"></i>Stars</span>
+                <span class="stats-badge">${repo.stargazers_count}</span>
+              </li>
+              <li class="list-group-item stats-item d-flex justify-content-between align-items-center">
+                <span><i class="fas fa-eye me-2"></i>Watchers</span>
+                <span class="stats-badge">${repo.watchers_count}</span>
+              </li>
+              <li class="list-group-item stats-item d-flex justify-content-between align-items-center">
+                <span><i class="fas fa-code-branch me-2"></i>Forks</span>
+                <span class="stats-badge">${repo.forks_count}</span>
+              </li>
+              <li class="list-group-item stats-item d-flex justify-content-between align-items-center">
+                <span><i class="fas fa-clock me-2"></i>Updated</span>
+                <span class="stats-badge">${updatedTimestamp}</span>
+              </li>
+            </ul>
+            
+            <div class="card-description">
+              <i class="fas fa-info-circle me-2"></i>
+              ${repo.description || ` ${bsrp}`}
+            </div>
+            
+            <div>
+              <a href="${repo.html_url}" class="card-link">
+                <i class="fab fa-github me-2"></i>View on GitHub
+              </a>
+              ${repo.homepage ? `
+                <a href="${repo.homepage}" class="card-link">
+                  <i class="fas fa-external-link-alt me-2"></i>Visit Website
+                </a>` : ''}
+            </div>
+          </div>
+          <div class="card-footer">
+            <i class="far fa-calendar-alt me-2"></i>Created ${createdTimestamp}
+          </div>
+        `;
 
-  <script>
-    // Fetch the GitHub repository creation date
-    fetch('https://api.github.com/users/StreamStats')
-      .then(response => response.json())
-      .then(repoInfo => {
-        const createdYear = new Date(repoInfo.created_at).getFullYear();
-        document.getElementById('github-year').textContent = createdYear;
-      })
-      .catch(error => console.error('Error fetching GitHub repository info:', error));
+        // Append the card to the container
+        repoGrid.appendChild(card);
+      });
+    }
   </script>
 </body>
-
 </html>
